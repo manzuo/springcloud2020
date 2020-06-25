@@ -20,7 +20,7 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
     @PostMapping("/create")
-    public CommonResult create(@ModelAttribute Payment payment){
+    public CommonResult create(@RequestBody Payment payment){
         int i = paymentService.create(payment);
         log.info("插入的结果为:"+i);
         if(i<0)

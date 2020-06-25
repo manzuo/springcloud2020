@@ -4,10 +4,7 @@ import com.manzuo.springcloud.entity.CommonResult;
 import com.manzuo.springcloud.entity.Payment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -25,7 +22,9 @@ public class OrderController {
     private RestTemplate restTemplate;
     @GetMapping("/payment/create")
     public CommonResult<Payment> create(Payment payment){
+        log.info(payment.toString());
         return restTemplate.postForObject(URL+"/payment/create",payment,CommonResult.class);
+
     }
     @GetMapping("/payment/get/{id}")
     public CommonResult<Payment> create(@PathVariable Integer id){
