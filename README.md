@@ -23,3 +23,24 @@ groupId=org.manzuo
 artifactId=cloud-api-commons
 
 ```
+### 第五次提交
++ 添加eureka-server7001模块，用来作为一个服务注册中心
++ 通过在主启动类使用 `@EnableEurekaServer` 注解,声明该模块为服务注册中心
++ 服务注册中心模块需要引入以下依赖
+```xml
+    <!--eureka-server-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+        </dependency>
+```
++ 通过在主启动类使用 `@EnableEurekaClient` 注解,声明该模块为服务提供者
++ 服务提供者模块需要引入以下依赖
+```xml
+        <!--eureka-client-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+``` 
++ 把payment8001模块、Order80模块作为服务注册在服务注册中心里
