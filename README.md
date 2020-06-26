@@ -44,3 +44,24 @@ artifactId=cloud-api-commons
         </dependency>
 ``` 
 + 把payment8001模块、Order80模块作为服务注册在服务注册中心里
+### 第六次提交
++ 添加eureka-server7002模块，构建eureka服务注册中心集群(相互注册,相互守望)
++ 为了在一台机器上搭建集群，我们可以修改hosts文件，配置多个域名映射本地ip
+	+ hosts文件相关：
+		+ hosts文件位置：
+			+ window：C:\Windows\System32\drivers\etc
+			+ liunx：/etc/hosts
+		+ hosts文件作用：当用户在浏览器中输入一个需要登录的网址时，系统会首先自动从hosts文件中寻找对应的IP地址，一旦找到，系统会立即打开对应网页，如果没有找到，则系统再会将网址提交DNS域名解析服务器进行IP地址的解析
+		+ 建议修改hosts文件前，先备份
++ 在hosts文件中添加下面几行代码
+```
+######## spring cloud 2020 ######
+127.0.0.1       eureka7001.com
+127.0.0.1       eureka7002.com
+127.0.0.1       eureka7003.com
+```
++ eureka集群之间可以相互复制注册信息,,所以原则上,服务提供者(或消费者)只需要向其中一个注册中心注册服务,集群里的其他注册中心也会有相应的注册信息
+但是为了避免出现一个注册中心挂掉,服务提供者就无法注册服务的情况,服务提供者(或者消费者)最好同时向集群里的多个注册中心注册服务.
++ 复制payment8001模块,命名为payment8002,端口号改为8002,其他不变.即在服务注册中心注册了两个payment服务,实现了payment模块的集群
++ order80模块的请求url前缀改用payment服务的注册别名:`CLOUD-PAYMENT-SERVICE`,( String URL = "http://CLOUD-PAYMENT-SERVICE";), RestTemplate Bean加上`@LoadBalanced`开启RestTemplate负载均衡功能(默认是轮询的方式)
+

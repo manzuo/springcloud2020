@@ -17,7 +17,8 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 @RequestMapping("/consumer")
 public class OrderController {
-    public static final  String URL = "http://localhost:8001";
+   // private static final  String URL = "http://localhost:8001";
+    private static final  String URL = "http://CLOUD-PAYMENT-SERVICE";
     @Autowired
     private RestTemplate restTemplate;
     @GetMapping("/payment/create")

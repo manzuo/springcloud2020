@@ -9,7 +9,11 @@ eureka:
     fetch-registry: true
     #    service-url配置内容是map类型的,所以配置信息必须为key: value形式
     service-url:
-      defaultZone: http://localhost:7001/eureka
+      #      defaultZone: http://eureka7001.com:7001/eureka/
+      #集群
+      #只向一个服务注册中心注册,eureka集群之间可以相互复制,所以每个注册中心都可以看到
+      #但是为了避免该服务注册中心刚好挂掉,保险起见,需要向多个服务注册中心注册
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
 spring:
   application:
     name: cloud-order-service
