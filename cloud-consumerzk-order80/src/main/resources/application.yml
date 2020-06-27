@@ -1,0 +1,10 @@
+server:
+  port: 80
+spring:
+  application:
+#    服务别名(注册到注册中心时的 名称)
+    name: cloud-order-service
+  cloud:
+#    配置zookeeper
+    zookeeper:
+      connect-string: 121.199.22.245:2181

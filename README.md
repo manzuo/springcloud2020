@@ -1,15 +1,14 @@
-### 克隆项目注意
-+ 需要新建一个springcloud2020空文件夹（也可以叫其他名字）
-+ 把这个文件夹作为项目的根目录，把文件都克隆到这个文件夹
-+ idea打开项目时候，也以这个springcloud2020文件夹作为根目录
-
 ### 第一次提交
 添加父工程pom
 ### 第二次提交
 添加payment8001模块
+
+
 ### 第三次提交
 + 添加Order80模块，用来调用payment8001模块的接口
 + order80模块本身不连接数据库（在配置文件里不配置数据库连接），而是通过Springboot提供的restTemplate，通过http方式访问payment接口
+
+
 ### 第四次提交
 + 添加api-commons模块，存放一些通用的entity类（如Payment、CommonResult）
 + 执行maven-clean后，执行maven-install命令，将api-commons打包并装载到本地仓库，供其他模块声明引入
@@ -23,6 +22,8 @@ groupId=org.manzuo
 artifactId=cloud-api-commons
 
 ```
+
+
 ### 第五次提交
 + 添加eureka-server7001模块，用来作为一个服务注册中心
 + 通过在主启动类使用 `@EnableEurekaServer` 注解,声明该模块为服务注册中心
@@ -44,6 +45,8 @@ artifactId=cloud-api-commons
         </dependency>
 ``` 
 + 把payment8001模块、Order80模块作为服务注册在服务注册中心里
+
+
 ### 第六次提交
 + 添加eureka-server7002模块，构建eureka服务注册中心集群(相互注册,相互守望)
 + 为了在一台机器上搭建集群，我们可以修改hosts文件，配置多个域名映射本地ip
@@ -65,3 +68,20 @@ artifactId=cloud-api-commons
 + 复制payment8001模块,命名为payment8002,端口号改为8002,其他不变.即在服务注册中心注册了两个payment服务,实现了payment模块的集群
 + order80模块的请求url前缀改用payment服务的注册别名:`CLOUD-PAYMENT-SERVICE`,( String URL = "http://CLOUD-PAYMENT-SERVICE";), RestTemplate Bean加上`@LoadBalanced`开启RestTemplate负载均衡功能(默认是轮询的方式)
 
+
+### 第七次提交:zookeeper相关
+
++ 新建payment8004模块，注册到zookeeper服务注册中心
++ zookeeper安装运行推荐使用docker,如下
+```
+#拉取镜像
+docker pull zookeeper
+#运行zookeeper容器
+docker run -d --name myzookeeper -p 2181:2181 --restart always zookeeper
+#进入zookeeper容器
+docker exec -it myzookeeper /bin/bash
+#（必须先进入zookeeper容器）连接zookeeper客户端
+./bin/zkCli.sh
+```
++ 新建cloud-consumerzk-order80模块，注册到zookeeper服务注册中心，并通过微服务名称调用payment8004模块接口
+	+ (备注,cloud-consumerzk-order80模块和cloud-consumer-order80模块占用了同一个端口,不能同时启动)

@@ -1,0 +1,16 @@
+server:
+  port: 8004
+spring:
+  application:
+#    服务别名(注册到注册中心时的 名称)
+    name: cloud-payment-service
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cloud2020?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: lingpao123
+  cloud:
+#    配置zookeeper
+    zookeeper:
+      connect-string: 121.199.22.245:2181
