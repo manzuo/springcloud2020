@@ -97,3 +97,8 @@ docker exec -it myzookeeper /bin/bash
 + Order80模块中手写了一个轮询算法(lb包下):
     + 核心算法: 请求的次数 %服务器集群的总数 = 实际调用的服务器的下标
     + 请求的次数自增时采用cas自旋保证原子性
+### 第九次提交 Spring Cloud OpenFeign相关
++ 新建cloud-consumer-feign-order80模块,集成openFeign
++ OpenFeign默认集成了Ribbon框架,默认实现了负载均衡功能
++ 实际上就是把 Ribbon+ RestTemplate 进一步封装成接口的方法,然后客户端通过调用接口的方法实现远程接口的调用
++ OpenFeign自带超时控制,接口方法调用时,默认只等待1s,超过1s会报错.如果方法调用超过1s,需要在配置文件配置.
