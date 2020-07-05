@@ -41,4 +41,8 @@ public class PaymentController {
             return new CommonResult<Payment>(200,"查询失败,port="+port);
         }
     }
+    @GetMapping(value = "/lb")
+    public String getPaymentLB(){
+        return port;
+    }
 }

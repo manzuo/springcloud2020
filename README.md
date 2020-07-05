@@ -85,3 +85,15 @@ docker exec -it myzookeeper /bin/bash
 ```
 + 新建cloud-consumerzk-order80模块，注册到zookeeper服务注册中心，并通过微服务名称调用payment8004模块接口
 	+ (备注,cloud-consumerzk-order80模块和cloud-consumer-order80模块占用了同一个端口,不能同时启动)
+### 第八次提交 Spring Cloud Ribbon相关
++ 简介：Ribbon可以提供客户端的软件负载均衡算法和服务调用
++ 负载均衡（Load Balance）：简单的说，将用户的请求平摊的分配到多个服务器上，从而达到系统的高可用
++ Ribbon本地负载均衡：在调用微服务接口的时候，会在注册中心获取到注册信息服务列表之后缓存到JVM本地，然后本地实现远程服务调用。
++ 和Nginx的区别：Nginx是服务器负载均衡，客户端所有请求都会交给Nginx，然后又Ngnix实现转发
+
++ 在Order80模块中新增了自定义的负载均衡规则类(myrule包下),并在主启动类中选择自定义的负载均衡规则类
+    + 自定义的负载均衡规则类建议不要放在@ComponentScan注解可以扫描到的地方(@SpringBootApplication注解包含@ComponentScan注解)
+    + 使用@RibbonClient选择自定义的负载均衡规则类
++ Order80模块中手写了一个轮询算法(lb包下):
+    + 核心算法: 请求的次数 %服务器集群的总数 = 实际调用的服务器的下标
+    + 请求的次数自增时采用cas自旋保证原子性

@@ -31,7 +31,7 @@ public class PaymentController {
         else
             return new CommonResult(200,"插入成功,port="+port);
     }
-    @GetMapping("get/{id}")
+    @GetMapping("/get/{id}")
     public CommonResult<Payment> get(@PathVariable Integer id){
         Payment payment = paymentService.getById(id);
         if (payment!=null){
@@ -40,5 +40,9 @@ public class PaymentController {
         else {
             return new CommonResult<Payment>(200,"查询失败,port="+port);
         }
+    }
+    @GetMapping(value = "/lb")
+    public String getPaymentLB(){
+        return port;
     }
 }
